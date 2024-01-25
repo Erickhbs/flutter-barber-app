@@ -11,8 +11,8 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.grey.shade600,
       appBar: AppBar(
         //imagem de autoria da barbearia Ryan Fagner em parnamirim
-        title: Image.network(
-          'https://topsalao.com/dados_usuarios/topsalao/102922/foto_capa.jpg?atualizador=15619',
+        title: Image.asset(
+          'assets/RF.png',
           width: 100,
           height: 100,
         ),
@@ -43,6 +43,7 @@ class HomeScreen extends StatelessWidget {
         onTabChange: (_index) => {
           print(_index)
         },
+        
         backgroundColor: Colors.black,
         color: Colors.white,
         activeColor: Colors.white,
