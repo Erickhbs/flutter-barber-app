@@ -1,59 +1,90 @@
+import 'package:demo/widgets/avisos_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
-  int _index = 0;
+void main() => runApp(MaterialApp(
+    builder: (context, child) {
+      return Directionality(textDirection: TextDirection.ltr, child: child!);
+    },
+    title: 'GNav',
+    theme: ThemeData(
+      primaryColor: Colors.grey[800],
+    ),
+    home: Example()));
+
+class Example extends StatefulWidget {
+  @override
+  _ExampleState createState() => _ExampleState();
+}
+
+class _ExampleState extends State<Example> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+  static const List<Widget> _widgetOptions = <Widget>[
+    AvisosPage(),
+    Text(
+      'Likes',
+      style: optionStyle,
+    ),
+    Text(
+      'Search',
+      style: optionStyle,
+    ),
+    Text(
+      'Profile',
+      style: optionStyle,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade600,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        //imagem de autoria da barbearia Ryan Fagner em parnamirim
-        title: Image.asset(
-          'assets/RF.png',
-          width: 100,
-          height: 100,
-        ),
-        toolbarHeight: 100,
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
+        elevation: 20,
+        title: const Text('GoogleNavBar'),
       ),
-      drawer: Drawer(
-        width: 300,
-        backgroundColor: Colors.grey.shade600,
-        child: Center(
-          child: 
-            TextButton(
-              child: const Text('Desenvolvedor', style: TextStyle(color: Colors.white),),
-              onPressed: () {
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Colors.black.withOpacity(.1),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            child: GNav(
+              rippleColor: Colors.grey[300]!,
+              hoverColor: Colors.grey[100]!,
+              gap: 8,
+              activeColor: Colors.black,
+              iconSize: 24,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: Duration(milliseconds: 400),
+              tabBackgroundColor: Colors.grey[100]!,
+              color: Colors.black,
+              tabs: [
+                GButton(icon: Icons.home_outlined, text: 'Avisos', textStyle: TextStyle(fontSize: 20, color: Colors.white)),
+                GButton(icon: Icons.add_circle_outline_rounded, text: 'Agendamento',textStyle: TextStyle(fontSize: 20, color: Colors.white)),
+                GButton(icon: Icons.assessment_outlined, text: 'Informações', textStyle: TextStyle(fontSize: 20, color: Colors.white)),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
               },
             ),
+          ),
         ),
-      ),
-
-      //google_navigation_bar
-      bottomNavigationBar: GNav(
-
-        //pagina atual
-        selectedIndex: _index,
-
-        //teste de index das paginas
-        onTabChange: (_index) => {
-          print(_index)
-        },
-        
-        backgroundColor: Colors.black,
-        color: Colors.white,
-        activeColor: Colors.white,
-        mainAxisAlignment: MainAxisAlignment.center,
-        gap: 8, 
-        tabs: const [
-          GButton(icon: Icons.home_outlined, text: 'Avisos',),
-          GButton(icon: Icons.add_circle_outline_rounded, text: 'Agendamento',),
-          GButton(icon: Icons.assessment_outlined, text: 'Informações'),
-        ],
       ),
     );
   }
